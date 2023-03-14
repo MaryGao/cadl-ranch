@@ -1,0 +1,44 @@
+// Case 1 model as body
+model InputModelBody {
+    param1?: string;
+    param2?: string;
+}
+@post create(...InputModelBody): Widget | Error;
+
+// Case 2 model contains other components
+model Widget {
+    @visibility("read", "update")
+    @path
+    id: string;
+    weight: int32;
+    color: "red" | "blue";
+}
+@post create(...Widget): Widget | Error;
+
+// Case 3 spread alias with effictive model
+model Widget {
+    weight: int32;
+    color: "red" | "blue";
+}
+alias WidgetParameter = {
+    @visibility("read", "update")
+    @path
+    id: string;
+    @body
+    body: Widget
+}
+@post create(...WidgetParameter): Widget | Error;
+
+// Case 4 spread alias with anomyls model
+model Widget {
+    weight: int32;
+    color: "red" | "blue";
+}
+alias WidgetParameter = {
+    @visibility("read", "update")
+    @path
+    id: string;
+    weight: int32;
+    color: "red" | "blue";
+}
+@post create(...WidgetParameter): Widget | Error;
